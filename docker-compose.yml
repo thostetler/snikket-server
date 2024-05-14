@@ -1,13 +1,10 @@
 version: "3.3"
 
 services:
-  common:
+  snikket_proxy:    
     environment:
       - SNIKKET_DOMAIN=foo.example.com
       - SNIKKET_ADMIN_EMAIL=admin@example.com
-      
-  snikket_proxy:    
-    extends: common
     container_name: snikket-proxy
     image: snikket/snikket-web-proxy:dev
     network_mode: host
@@ -17,7 +14,9 @@ services:
     restart: "unless-stopped"
     
   snikket_certs:
-    extends: common
+    environment:
+      - SNIKKET_DOMAIN=foo.example.com
+      - SNIKKET_ADMIN_EMAIL=admin@example.com
     container_name: snikket-certs
     image: snikket/snikket-cert-manager:dev
     network_mode: host
@@ -27,14 +26,18 @@ services:
     restart: "unless-stopped"
     
   snikket_portal:
-    extends: common
+    environment:
+      - SNIKKET_DOMAIN=foo.example.com
+      - SNIKKET_ADMIN_EMAIL=admin@example.com
     container_name: snikket-portal
     image: snikket/snikket-web-portal:dev
     network_mode: host
     restart: "unless-stopped"
 
   snikket_server:
-    extends: common
+    environment:
+      - SNIKKET_DOMAIN=foo.example.com
+      - SNIKKET_ADMIN_EMAIL=admin@example.com
     container_name: snikket
     image: snikket/snikket-server:dev
     network_mode: host
